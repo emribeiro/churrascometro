@@ -5,6 +5,7 @@ import { ChurrascometroService } from '../../shared/services/churrascometro.serv
 import { map } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { ScrollService } from '../../shared/services/scroll.service';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,7 @@ export class HomeComponent implements OnInit{
   bebidas: Bebida[] = [];
   welcomeMessage = "Bem vindo ao Churrascometro!";
 
-  constructor(private churrascometroService: ChurrascometroService){}
+  constructor(private churrascometroService: ChurrascometroService, private scrollService: ScrollService){}
 
   ngOnInit(): void {
     this.inicializarService();
@@ -36,6 +37,10 @@ export class HomeComponent implements OnInit{
     this.churrascometroService.getBebidas().subscribe((bebidas) => {
       this.bebidas = bebidas;
     });
+  }
+  
+  rolarToSection(id: string): void{
+    this.scrollService.scrollTo(id);
   }
 
 }
