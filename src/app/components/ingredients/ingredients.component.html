@@ -1,0 +1,23 @@
+<div class="bg-red-300 mx-auto p-4">
+    <h1 class="!text-2xl !font-bold !mb-4">Valores de referência das Carnes e Bebidas</h1>
+
+    <div class="grid grid-cols-2 gap-4">
+        <div *ngFor="let carne of carnes">
+            <div class="bg-white shadow-md rounded p-4 mb-4">
+                <h2 class="!text-xl !font-semibold !mb-2">{{carne.nome | titlecase}}</h2>   
+                <p>Preço por kg: {{carne.preco_kg | currency: 'BRL'}}</p>
+                <p>Consumo médio por adulto (g): {{carne.consumo_medio_adulto_g}}</p> 
+                <p>Consumo médio por criança (g): {{carne.consumo_medio_crianca_g}}</p>     
+            </div>
+        </div>
+        <div *ngFor="let bebida of bebidas">
+            <div class="bg-white shadow-md rounded p-4 mb-4">
+                <h2 class="!text-xl !font-semibold !mb-2">{{bebida.nome | titlecase}}</h2>   
+                <p>Preço por unidade: {{bebida.preco_unidade | currency: 'BRL'}}</p>
+                <p>Consumo médio por adulto (ml): {{bebida.consumo_medio_adulto_ml}}</p> 
+                <p>Consumo médio por criança (ml): {{bebida.consumo_medio_crianca_ml}}</p>     
+            </div>
+        </div>
+    </div>
+
+</div>
