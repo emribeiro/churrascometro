@@ -1,8 +1,17 @@
-<h1>Bem Vindo ao Churrascometro</h1>
+<section id="section-start">
+   <div class="text-center py-5">
+      <h1 class="!my-6 !text-3xl !font-bold">
+         {{welcomeMessage}}
+      </h1>
 
-<ul>
-   <h1>Carnes</h1>
-   <li *ngFor="let carne of carnes">
-        {{carne.nome}}
-   </li> 
-</ul>
+      <button mat-raised-button 
+              color="primary" 
+              class="button-start mb-6">
+         Vamos começar!
+      </button>
+   </div>
+</section>
+
+<section id="section-form" class="bg-red-300 min-h[calc(100vh-400px)] p10">
+   <h1>Hi!</h1>
+</section>
