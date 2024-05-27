@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { ScrollService } from '../../shared/services/scroll.service';
 import { IngredientsComponent } from '../../components/ingredients/ingredients.component';
 import { FormComponent } from '../../components/form/form.component';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,29 +13,14 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   imports: [CommonModule, MatButtonModule, IngredientsComponent, FormComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
-  animations: [
-    trigger('showForm', [
-      state('show',
-        style({
-          opacity: 1
-        })
-      ),
-      state('hidden',
-        style({
-          opacity: 0
-        })
-      ),
-      transition('hidden => show', [animate('0.2s ease')]),
-      transition('show => hidden', [animate('0.2s ease')]),
-      transition('* => show', [animate('0.2s ease')]),
-    ])
-  ]
+  animations: []
 })
 export class HomeComponent{
 
   welcomeMessage = "Bem vindo ao Churrascometro!";
 
-  showForm = false;
+  $router = inject(Router);
+
 
   constructor(private scrollService: ScrollService){}
   
@@ -43,8 +28,8 @@ export class HomeComponent{
     this.scrollService.scrollTo(id);
   }
 
-  toogleForm(){
-    this.showForm = !this.showForm;
+  navigateToCreation(){
+    this.$router.navigate(['/churrascos/novo']);
   }
 
 }

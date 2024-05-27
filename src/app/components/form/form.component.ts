@@ -114,9 +114,6 @@ export class FormComponent {
 
       this.churrasco = churrascoBuilder.build();
 
-      console.log(this.churrasco);
-      
-
       setTimeout(() => {
         this.exibirLoading = false;
         this.exibirResultados = true;
