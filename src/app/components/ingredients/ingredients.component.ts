@@ -25,11 +25,14 @@ export class IngredientsComponent implements OnInit{
   }
 
   inicializarService(){
-    this.churrascometroService.getCarnes().pipe(
-      map(carnes => {
-        this.carnes = carnes;
-      })
-    ).subscribe();
+    // this.churrascometroService.getCarnes().pipe(
+    //   map(carnes => {
+    //     this.carnes = carnes;
+    //   })
+    // ).subscribe();
+
+    this.churrascometroService.httpGetCarnes().subscribe();
+    
     this.churrascometroService.getBebidas().subscribe((bebidas) => {
       this.bebidas = bebidas;
     });

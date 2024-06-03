@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { Carne } from '../models/Carne';
 import { Bebida } from '../models/Bebida';
 
@@ -10,11 +10,16 @@ import { Bebida } from '../models/Bebida';
 export class ChurrascometroService {
 
   private API_URL = 'http://localhost:3000'
+  private carnes = signal<Carne[]>([]);
+  public getCarnes = this.carnes.asReadonly();
 
   constructor(private http: HttpClient) { }
 
-  getCarnes(): Observable<Carne[]>{
+  httpGetCarnes(): Observable<Carne[]>{
     return this.http.get<Carne[]>(`${this.API_URL}/carnes`).pipe(
+      tap((carnes) => {
+        this.carnes.set(carnes);
+      }),
       catchError(this.handlerError)
     )
   }

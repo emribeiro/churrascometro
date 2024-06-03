@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -10,6 +10,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Churrasco } from '../../shared/models/churrasco/Churrasco';
 import { ChurrascoBuilder } from '../../shared/models/churrasco/ChurrascoBuilder';
 import { ChurrascometroService } from '../../shared/services/churrascometro.service';
+import { TipoChurrasco } from '../../shared/models/churrasco/TipoChurrasco.enum';
+import { MatRadioModule } from '@angular/material/radio';
 
 @Component({
   selector: 'app-form',
@@ -19,6 +21,7 @@ import { ChurrascometroService } from '../../shared/services/churrascometro.serv
            , MatCheckboxModule
            , MatFormFieldModule
            , MatInputModule
+           , MatRadioModule
            , MatProgressSpinnerModule
            , MatStepperModule
            , FormsModule
@@ -28,6 +31,7 @@ import { ChurrascometroService } from '../../shared/services/churrascometro.serv
 })
 export class FormComponent {
 
+  formTipoChurrasco!: FormGroup;
   formPessoas!: FormGroup;
   formCarnes!: FormGroup;
   formBebidas!: FormGroup;
@@ -36,23 +40,33 @@ export class FormComponent {
   churrasco!: Churrasco;
 
   carnesLista = [
-    { value: 'picanha', label: 'Picanha' },
-    { value: 'costela', label: 'Costela' },
-    { value: 'linguica', label: 'Linguiça' },
-    { value: 'frango', label: 'Frango' },
+    { value: 'picanha', label: 'Picanha', tipo: 'Normal' },
+    { value: 'costela', label: 'Costela', tipo: 'Normal' },
+    { value: 'linguica', label: 'Linguiça', tipo: 'Normal' },
+    { value: 'frango', label: 'Frango', tipo: 'Normal' },
+    { value: 'queijo', label: 'Queijo', tipo: 'Vegetariano' },
+    { value: 'abacaxi', label: 'Abacaxi', tipo: 'Vegano' },
   ];
 
   bebidasLista = [
     { value: 'cerveja', label: 'Cerveja' },
     { value: 'refrigerante', label: 'Refrigerante' },
-    { value: 'água', label: 'Água' },
+    { value: 'agua', label: 'Água' },
     { value: 'suco', label: 'Suco' },
   ];
+
+  tiposChurrasco = Object.keys(TipoChurrasco);
+  tipochurrasco!: TipoChurrasco;
+
+ 
 
   constructor(
     private formBuilder: FormBuilder,
     private churrascometroService: ChurrascometroService
   ){
+    this.formTipoChurrasco = this.formBuilder.group({
+      tipoChurrasco: ['', this.validateTipo()]
+    })
     this.formPessoas = this.formBuilder.group({
       adultos: new FormControl(0, [Validators.required, Validators.min(0)]),
       criancas: new FormControl(null)
@@ -61,7 +75,9 @@ export class FormComponent {
       picanha: new FormControl(null),
       costela: new FormControl(null),
       linguica: new FormControl(null),
-      frango: new FormControl(null)
+      frango: new FormControl(null),
+      abacaxi: new FormControl(null),
+      queijo: new FormControl(null)
     });
 
     this.formBebidas = this.formBuilder.group({
@@ -72,6 +88,17 @@ export class FormComponent {
     });
   }
 
+  selecionarTipoChurrasco(){
+    this.tipochurrasco = this.formTipoChurrasco.get('tipoChurrasco')?.value;
+    console.log(this.tipochurrasco);
+  }
+
+  validateTipo(): ValidatorFn{
+    return (control: AbstractControl): ValidationErrors | null => {
+      return control.value ? null : {required: true}
+    }
+  }
+  
   submit(): void {
     if (this.formPessoas.valid &&
         this.formCarnes.valid && 
