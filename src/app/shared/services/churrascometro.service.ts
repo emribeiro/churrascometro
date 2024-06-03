@@ -69,6 +69,15 @@ httpCreateProduto(carne: any, endpoint: string): Observable<any> {
   )
 }
 
+httpUpdateProduto(id: string, endpoint: string, produto: any): Observable<any> {
+  return this.http.put<any>(`${this.API_URL}/${endpoint}/${id}`, produto).pipe(
+    tap((produto: any) => {
+      this.produto.set(produto); 
+    }),
+    catchError(this.handlerError)
+  )
+}
+
 httpGetProduto(id: string, endpoint: string): Observable<any>{
   return this.http.get<any>(`${this.API_URL}/${endpoint}/${id}`).pipe(
     tap((produto: any) => {

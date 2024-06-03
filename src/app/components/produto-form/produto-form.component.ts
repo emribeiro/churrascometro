@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Carne } from '../../shared/models/Carne';
 import { ChurrascometroService } from '../../shared/services/churrascometro.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-produto-form',
@@ -32,7 +33,9 @@ export class ProdutoFormComponent implements OnInit {
   form!: FormGroup;
   getProduto = this.service.getProduto;
 
-  constructor(private formBuilder: FormBuilder, private service: ChurrascometroService){
+  constructor( private formBuilder: FormBuilder
+             , private service: ChurrascometroService
+             , private router: Router){
     effect(() => {
       if(this.getProduto()){
         this.form.patchValue(this.getProduto());  
@@ -71,13 +74,23 @@ export class ProdutoFormComponent implements OnInit {
         }
       });
       if(carne){
-        this.service.httpCreateProduto(carne, 'carnes').subscribe({
-          next: (produtoCriado) => {
-            this.form.reset();
-            console.log(produtoCriado)
-          }
-        })
+        if(this.id){
+          this.service.httpUpdateProduto(this.id, 'carnes', carne).subscribe({
+            next: (produtoAtualizado) => {
+              this.form.reset();
+              console.log("Produto Atualizado: " + produtoAtualizado);
+            }
+          })
+        }else{
+          this.service.httpCreateProduto(carne, 'carnes').subscribe({
+            next: (produtoCriado) => {
+              this.form.reset();
+              console.log(produtoCriado);
+            }
+          })  
+        } 
       }
+      this.router.navigate(['/home']);
     }
   }
 

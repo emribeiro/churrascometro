@@ -41,12 +41,12 @@
       "consumo_medio_crianca_g": 100
     },
     {
-      "id": "6",
-      "nome": "abacaxi",
+      "nome": "Melancia",
       "tipo": "fruta",
-      "preco_kg": 5,
+      "preco_kg": 12,
       "consumo_medio_adulto_g": 150,
-      "consumo_medio_crianca_g": 50
+      "consumo_medio_crianca_g": 50,
+      "id": "6"
     },
     {
       "nome": "Pão de Alho",
