@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, effect } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,6 +20,8 @@ import { ChurrascometroService } from '../../shared/services/churrascometro.serv
   styleUrl: './produto-form.component.scss'
 })
 export class ProdutoFormComponent implements OnInit {
+
+  @Input() id!: string;
   campos = [
     { nome: 'nome', tipo: 'text', placeholder: 'Nome' },
     { nome: 'tipo', tipo: 'text', placeholder: 'Tipo' },
@@ -28,8 +30,15 @@ export class ProdutoFormComponent implements OnInit {
     { nome: 'consumo_medio_crianca_g', tipo: 'number', placeholder: 'Consumo médio por criança (g)' },
   ];
   form!: FormGroup;
+  getProduto = this.service.getProduto;
 
-  constructor(private formBuilder: FormBuilder, private service: ChurrascometroService){}
+  constructor(private formBuilder: FormBuilder, private service: ChurrascometroService){
+    effect(() => {
+      if(this.getProduto()){
+        this.form.patchValue(this.getProduto());  
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({ });
@@ -37,6 +46,10 @@ export class ProdutoFormComponent implements OnInit {
     this.campos.forEach((campo) => {
       this.addFormControl(campo.nome, [Validators.required]);
     });
+
+    if(this.id){
+      this.service.httpGetProduto(this.id, 'carnes').subscribe();
+    }
   }
 
   private addFormControl(fieldName: string, validators: any[] = []): void{

@@ -13,6 +13,7 @@ export class ChurrascometroService {
   private carnes = signal<Carne[]>([]);
   public getCarnes = this.carnes.asReadonly();
   private produto = signal<any | null>(null);
+  public getProduto = this.produto.asReadonly();
 
   constructor(private http: HttpClient) { }
 
@@ -66,6 +67,15 @@ httpCreateProduto(carne: any, endpoint: string): Observable<any> {
     }),
     catchError(this.handlerError)
   )
+}
+
+httpGetProduto(id: string, endpoint: string): Observable<any>{
+  return this.http.get<any>(`${this.API_URL}/${endpoint}/${id}`).pipe(
+    tap((produto: any) => {
+      this.produto.set(produto); 
+    }),
+    catchError(this.handlerError)
+  );
 }
 
 

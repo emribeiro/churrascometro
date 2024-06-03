@@ -1,5 +1,11 @@
 <form [formGroup]="form" class="flex flex-col m-10">
-    <h2 class="text-xl font-bold mb-4">Criação de Carne</h2>
+    <h2 class="text-xl font-bold mb-4">
+        @if (id) {
+            Atualizar Carne
+        }@else {
+            Criar nova Carne
+        }
+    </h2>
     @for (campo of campos; track campo.nome) {
         <mat-form-field>
             <input
@@ -11,6 +17,10 @@
         </mat-form-field>
     }
     <button mat-raised-button color="primary" class="button-start mb-6" [disabled]="!form.valid" (click)="submit()">
-        Criar
+        @if (id) {
+            Atualizar
+        }@else {
+            Criar
+        }
     </button>
 </form>

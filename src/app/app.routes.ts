@@ -24,8 +24,11 @@ export const routes: Routes = [
         },
         {
           path: 'produto',
-          component: CriacaoProdutoComponent,
-          title: 'Criar Produto'
+          title: 'Criar Produto',
+          children: [
+            { path: '', component: CriacaoProdutoComponent, title: 'Criar novo produto'},
+            { path: ':id', component: CriacaoProdutoComponent, title: 'Atualizar Produto'}
+          ]
         },
         {
           path: ':id',
