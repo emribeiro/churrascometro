@@ -78,6 +78,15 @@ httpUpdateProduto(id: string, endpoint: string, produto: any): Observable<any> {
   )
 }
 
+httpDeleteProduto(id: string, endpoint: string): Observable<any> {
+  return this.http.delete<any>(`${this.API_URL}/${endpoint}/${id}`).pipe(
+    tap(() => {
+      this.produto.set(null); 
+    }),
+    catchError(this.handlerError)
+  )
+}
+
 httpGetProduto(id: string, endpoint: string): Observable<any>{
   return this.http.get<any>(`${this.API_URL}/${endpoint}/${id}`).pipe(
     tap((produto: any) => {
