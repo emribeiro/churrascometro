@@ -47,6 +47,14 @@
       "preco_kg": 5,
       "consumo_medio_adulto_g": 150,
       "consumo_medio_crianca_g": 50
+    },
+    {
+      "nome": "Pão de Alho",
+      "tipo": "Pão",
+      "preco_kg": 40,
+      "consumo_medio_adulto_g": 200,
+      "consumo_medio_crianca_g": 100,
+      "id": "vi_h3I6"
     }
   ],
   "bebidas": [

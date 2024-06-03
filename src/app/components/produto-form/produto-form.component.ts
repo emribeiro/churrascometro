@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { Carne } from '../../shared/models/Carne';
+import { ChurrascometroService } from '../../shared/services/churrascometro.service';
 
 @Component({
   selector: 'app-produto-form',
@@ -27,7 +29,7 @@ export class ProdutoFormComponent implements OnInit {
   ];
   form!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder){}
+  constructor(private formBuilder: FormBuilder, private service: ChurrascometroService){}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({ });
@@ -39,5 +41,34 @@ export class ProdutoFormComponent implements OnInit {
 
   private addFormControl(fieldName: string, validators: any[] = []): void{
     this.form.addControl(fieldName, this.formBuilder.control('', validators));
+  }
+
+  public submit(): void{
+    if(this.form.valid){
+      let carne!: Carne;
+
+      this.campos.forEach((campo) => {
+        const value = this.getValorFormControl(campo.nome);
+
+        if(value){
+          carne = {
+            ...carne,
+            [campo.nome]: campo.tipo === 'number' ? parseInt(value) : value
+          }
+        }
+      });
+      if(carne){
+        this.service.httpCreateProduto(carne, 'carnes').subscribe({
+          next: (produtoCriado) => {
+            this.form.reset();
+            console.log(produtoCriado)
+          }
+        })
+      }
+    }
+  }
+
+  private getValorFormControl(nome: string): string | null {
+    return this.form.get(nome)?.value;
   }
 }
