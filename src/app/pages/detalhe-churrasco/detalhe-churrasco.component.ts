@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-detalhe-churrasco',
@@ -7,12 +8,14 @@ import { Component, Input } from '@angular/core';
   templateUrl: './detalhe-churrasco.component.html',
   styleUrl: './detalhe-churrasco.component.scss'
 })
-export class DetalheChurrascoComponent //implements OnInit
+export class DetalheChurrascoComponent implements OnInit
 {
+  
   idStr?: string = '';
-  @Input() set id(code: string) {
-    console.log('ID', code);
-    this.idStr = code;
-  }
+  
+  constructor(public router: ActivatedRoute){}
 
+   ngOnInit(): void {
+    this.idStr = this.router.snapshot.params['id'];
+  }
 }
