@@ -3,13 +3,13 @@ import { Injectable, signal } from '@angular/core';
 import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { Carne } from '../models/Carne';
 import { Bebida } from '../models/Bebida';
+import { API_URL } from '../models/constants/constant';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChurrascometroService {
 
-  private API_URL = 'http://localhost:3000'
   private carnes = signal<Carne[]>([]);
   public getCarnes = this.carnes.asReadonly();
   private produto = signal<any | null>(null);
@@ -18,7 +18,7 @@ export class ChurrascometroService {
   constructor(private http: HttpClient) { }
 
   httpGetCarnes(): Observable<Carne[]>{
-    return this.http.get<Carne[]>(`${this.API_URL}/carnes`).pipe(
+    return this.http.get<Carne[]>(`${API_URL}/carnes`).pipe(
       tap((carnes) => {
         this.carnes.set(carnes);
       }),
@@ -27,13 +27,13 @@ export class ChurrascometroService {
   }
 
   getBebidas(): Observable<Bebida[]>{
-    return this.http.get<Bebida[]>(`${this.API_URL}/bebidas`).pipe(
+    return this.http.get<Bebida[]>(`${API_URL}/bebidas`).pipe(
       catchError(this.handlerError)
     )
   }
 
 getCarneByName(nome: string): Observable<Carne> {
-  return this.http.get<any[]>(`${this.API_URL}/carnes`).
+  return this.http.get<any[]>(`${API_URL}/carnes`).
     pipe(
       map(carnes => {
         const carne = carnes.find((carne: { nome: string }) => carne.nome === nome);
@@ -47,7 +47,7 @@ getCarneByName(nome: string): Observable<Carne> {
 }
 
 getBebidaByName(nome: string): Observable<Bebida> {
-  return this.http.get<any[]>(`${this.API_URL}/bebidas`).
+  return this.http.get<any[]>(`${API_URL}/bebidas`).
     pipe(
       map(bebidas => {
         const bebida = bebidas.find((bebida: { nome: string }) => bebida.nome === nome);
@@ -61,7 +61,7 @@ getBebidaByName(nome: string): Observable<Bebida> {
 }
 
 httpCreateProduto(carne: any, endpoint: string): Observable<any> {
-  return this.http.post<any>(`${this.API_URL}/${endpoint}`, carne).pipe(
+  return this.http.post<any>(`${API_URL}/${endpoint}`, carne).pipe(
     tap((produto: any) => {
       this.produto.set(produto); 
     }),
@@ -70,7 +70,7 @@ httpCreateProduto(carne: any, endpoint: string): Observable<any> {
 }
 
 httpUpdateProduto(id: string, endpoint: string, produto: any): Observable<any> {
-  return this.http.put<any>(`${this.API_URL}/${endpoint}/${id}`, produto).pipe(
+  return this.http.put<any>(`${API_URL}/${endpoint}/${id}`, produto).pipe(
     tap((produto: any) => {
       this.produto.set(produto); 
     }),
@@ -79,7 +79,7 @@ httpUpdateProduto(id: string, endpoint: string, produto: any): Observable<any> {
 }
 
 httpDeleteProduto(id: string, endpoint: string): Observable<any> {
-  return this.http.delete<any>(`${this.API_URL}/${endpoint}/${id}`).pipe(
+  return this.http.delete<any>(`${API_URL}/${endpoint}/${id}`).pipe(
     tap(() => {
       this.produto.set(null); 
     }),
@@ -88,7 +88,7 @@ httpDeleteProduto(id: string, endpoint: string): Observable<any> {
 }
 
 httpGetProduto(id: string, endpoint: string): Observable<any>{
-  return this.http.get<any>(`${this.API_URL}/${endpoint}/${id}`).pipe(
+  return this.http.get<any>(`${API_URL}/${endpoint}/${id}`).pipe(
     tap((produto: any) => {
       this.produto.set(produto); 
     }),
