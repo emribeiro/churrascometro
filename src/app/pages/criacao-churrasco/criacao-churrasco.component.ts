@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './criacao-churrasco.component.html',
   styleUrl: './criacao-churrasco.component.scss'
 })
-export class CriacaoChurrascoComponent {
+export default class CriacaoChurrascoComponent {
   constructor(private scrollService: ScrollService) { }
   rolarToSection(id: string): void {
     this.scrollService.scrollTo(id);

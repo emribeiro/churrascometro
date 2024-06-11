@@ -1,6 +1,6 @@
 import { HttpHeaders } from "@angular/common/http";
 
-export const API_URL= 'http://localhost:7285'
+export const API_URL= 'http://localhost:5001'
 export const FRONT_URL= 'http://localhost:4200'
 export const HTTP_OPTIONS = {
     headers: new HttpHeaders({
@@ -13,3 +13,5 @@ export const HTTP_OPTIONS = {
     })
 };
 export const TOKEN_KEY = 'token';
+export const USER_KEY = 'user';
+export const PERFIL_KEY = 'perfil';

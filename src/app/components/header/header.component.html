@@ -8,12 +8,26 @@
                 <button mat-menu-item [routerLink]="['churrascos']">Lista</button>
                 <button mat-menu-item [routerLink]="['churrascos/novo']">Novo</button>
                 <button mat-menu-item [routerLink]="['churrascos/produto']">Produto</button>
+                @if (loginService.isLoggedIn()) {
+                    <a mat-menu-item (click)="logout()">Sair</a>
+                  } @else {
+                    <input type="text" matInput [(ngModel)]="user" placeholder="Usuário" />
+                    <input type="password" matInput [(ngModel)]="pass" placeholder="Senha" />
+                    <a mat-menu-item (click)="login()">Entrar</a>
+                  }
             </mat-menu>
         </menu>
         <menu class="hidden sm:flex">
             <button mat-menu-item [routerLink]="['churrascos']">Lista</button>
             <button mat-menu-item [routerLink]="['churrascos/novo']">Novo</button>
             <button mat-menu-item [routerLink]="['churrascos/produto']">Produto</button>
+            @if (loginService.isLoggedIn()) {
+                <a mat-menu-item (click)="logout()">Sair</a>
+              } @else {
+                <input type="text" matInput [(ngModel)]="user" placeholder="Usuário" />
+                <input type="password" matInput [(ngModel)]="pass" placeholder="Senha" />
+                <a mat-menu-item (click)="login()">Entrar</a>
+              }
         </menu>
         <figure class="flex items-center gap-4 md:flex-row-reverse">
             <figcaption>Churrascometro</figcaption>

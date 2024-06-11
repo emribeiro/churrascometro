@@ -9,7 +9,7 @@ import { ProdutoFormComponent } from '../../components/produto-form/produto-form
   templateUrl: './criacao-produto.component.html',
   styleUrl: './criacao-produto.component.scss'
 })
-export class CriacaoProdutoComponent{
+export default class CriacaoProdutoComponent{
   
   paramId!: string;
 

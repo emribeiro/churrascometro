@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './detalhe-churrasco.component.html',
   styleUrl: './detalhe-churrasco.component.scss'
 })
-export class DetalheChurrascoComponent implements OnInit
+export default class DetalheChurrascoComponent implements OnInit
 {
   
   idStr?: string = '';

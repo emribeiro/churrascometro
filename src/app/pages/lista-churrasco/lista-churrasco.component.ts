@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './lista-churrasco.component.html',
   styleUrl: './lista-churrasco.component.scss'
 })
-export class ListaChurrascoComponent {
+export default class ListaChurrascoComponent {
   items = [
     { id: 1, nome: 'Churrasco 1' },
     { id: 2, nome: 'Churrasco 2' },
