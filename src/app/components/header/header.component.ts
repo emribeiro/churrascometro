@@ -37,9 +37,7 @@ export class HeaderComponent {
   login(){
     this.loginService.login(this.user, this.pass).subscribe({
       next: (res) => {
-        this.storageService.setToken(res.token);
-        this.storageService.setUser(res.user);
-        this.storageService.setPerfil(res.perfil);
+        this.storageService.doLogin(res.token, res.user, res.perfil);
       }});
   }
 

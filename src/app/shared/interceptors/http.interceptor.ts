@@ -14,7 +14,8 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
     setHeaders: {
       Authorization: `Bearer ${token}`
     }
-  })
+  });
+
   return next(req).pipe(
     retry({ count: 2, delay: 1000 }),
     catchError((err: HttpErrorResponse) => {

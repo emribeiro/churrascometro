@@ -74,6 +74,7 @@ app.use(jwtValidation);
 app.get("/logout", (req, res) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
+    console.log("token: " + token);
     blacklistedToken.push(token);
     res.status = 200;
     res.end();

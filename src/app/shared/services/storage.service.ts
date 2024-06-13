@@ -9,7 +9,7 @@ export class StorageService {
 
   constructor() { }
 
-  public getToken(): any {
+  public getToken(): string | null {
     const token = window.sessionStorage.getItem(TOKEN_KEY);
     if (token) {
       return token;
@@ -51,6 +51,11 @@ export class StorageService {
     window.sessionStorage.removeItem(PERFIL_KEY);
   }
 
+  public doLogin(token: string, user: string, perfil: string): void{
+    this.setToken(token);
+    this.user(user);
+    this.setPerfil(perfil);
+  }
   public doLogoff(): void {
     this.removeToken();
     this.removeUser();

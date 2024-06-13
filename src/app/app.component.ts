@@ -28,7 +28,7 @@ export class AppComponent {
     this.auth.login(this.user, this.pass).subscribe({
       next: (res) => {
         console.log(res);
-        this.storage.setToken(res);
+        this.storage.setToken(res.token);
       },
       error: (err) => {
         console.log(err);
