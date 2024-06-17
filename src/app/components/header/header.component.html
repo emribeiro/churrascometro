@@ -5,28 +5,36 @@
                 <mat-icon>menu</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item [routerLink]="['churrascos']">Lista</button>
-                <button mat-menu-item [routerLink]="['churrascos/novo']">Novo</button>
-                <button mat-menu-item [routerLink]="['churrascos/produto']">Produto</button>
                 @if (loginService.isLoggedIn()) {
+                    <button mat-menu-item [routerLink]="['churrascos']">Lista</button>
+                    <button mat-menu-item [routerLink]="['churrascos/novo']">Novo</button>
+                    <button mat-menu-item [routerLink]="['churrascos/produto']">Produto</button>
                     <a mat-menu-item (click)="logout()">Sair</a>
                   } @else {
-                    <input type="text" matInput [(ngModel)]="user" placeholder="Usuário" />
-                    <input type="password" matInput [(ngModel)]="pass" placeholder="Senha" />
-                    <a mat-menu-item (click)="login()">Entrar</a>
+                    <button mat-raised-button 
+                    color="primary" 
+                    class="button-start mb-6 "
+                    (click)="openSignInDialog()"
+                    >
+                    Entrar
+                     </button>
                   }
             </mat-menu>
         </menu>
         <menu class="hidden sm:flex">
-            <button mat-menu-item [routerLink]="['churrascos']">Lista</button>
-            <button mat-menu-item [routerLink]="['churrascos/novo']">Novo</button>
-            <button mat-menu-item [routerLink]="['churrascos/produto']">Produto</button>
             @if (loginService.isLoggedIn()) {
+                <button mat-menu-item [routerLink]="['churrascos']">Lista</button>
+                <button mat-menu-item [routerLink]="['churrascos/novo']">Novo</button>
+                <button mat-menu-item [routerLink]="['churrascos/produto']">Produto</button>
                 <a mat-menu-item (click)="logout()">Sair</a>
               } @else {
-                <input type="text" matInput [(ngModel)]="user" placeholder="Usuário" />
-                <input type="password" matInput [(ngModel)]="pass" placeholder="Senha" />
-                <a mat-menu-item (click)="login()">Entrar</a>
+                <button mat-raised-button 
+                color="primary" 
+                class="button-start mb-6 "
+                (click)="openSignInDialog()"
+                >
+                Entrar
+                 </button>
               }
         </menu>
         <figure class="flex items-center gap-4 md:flex-row-reverse">

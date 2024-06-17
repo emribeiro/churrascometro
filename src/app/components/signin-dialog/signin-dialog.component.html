@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Entre com seus dados</h2>
+<mat-dialog-content>
+  <form [formGroup]="formLogin" class="flex flex-col m-10"> 
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="usuario"
+        placeholder="Usuário"
+      />
+  </mat-form-field>
+  <mat-form-field>
+      <input
+        matInput
+        type="password"
+        placeholder="Senha"
+        formControlName="senha"
+      />
+  </mat-form-field>
+  </form>
+   
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button 
+        mat-raised-button 
+        class="mb-6"
+        mat-dialog-close >Sair</button>
+    <button 
+        mat-raised-button
+        class="mb-6" 
+        color="primary"
+        [disabled]="!formLogin.valid"
+        (click)="login()"
+    >Entrar</button>
+</mat-dialog-actions>

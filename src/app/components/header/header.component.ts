@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { LoginService } from '../../shared/services/login.service';
 import { StorageService } from '../../shared/services/storage.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SigninDialogComponent } from '../signin-dialog/signin-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -19,27 +21,22 @@ import { StorageService } from '../../shared/services/storage.service';
     MatMenuModule, 
     RouterLink, 
     FormsModule,
-    MatInputModule
+    MatInputModule,
   ],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
   user!: string;
   pass!: string;
+  
 
   constructor(
     public loginService: LoginService,
     private storageService: StorageService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
-
-  login(){
-    this.loginService.login(this.user, this.pass).subscribe({
-      next: (res) => {
-        this.storageService.doLogin(res.token, res.user, res.perfil);
-      }});
-  }
 
   logout(){
     if (!this.loginService.isLoggedIn()) return;
@@ -48,5 +45,10 @@ export class HeaderComponent {
         this.storageService.doLogoff();
       }
     });
+  }
+
+  openSignInDialog(): void{
+    console.log('Try to open');
+    this.dialog.open(SigninDialogComponent);
   }
 }
