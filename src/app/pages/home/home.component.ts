@@ -19,14 +19,14 @@ import { StorageService } from '../../shared/services/storage.service';
 export default class HomeComponent{
 
   welcomeMessage = "Bem vindo ao Churrascometro!";
-  usuario = this.storageService.user.asReadOnly();
+  usuario = this.storageService.user.asReadOnly;
 
   $router = inject(Router);
 
 
   constructor(private scrollService: ScrollService, public storageService: StorageService){
     effect(() => {
-      if (this.usuario()) {
+      if (this.usuario) {
         this.welcomeMessage = `Bem-vindo ao Churrascômetro ${ this.storageService.user() }!`;
       } else {
         this.welcomeMessage = `Bem-vindo ao Churrascômetro!`;

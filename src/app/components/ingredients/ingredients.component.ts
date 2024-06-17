@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Carne } from '../../shared/models/Carne';
 import { Bebida } from '../../shared/models/Bebida';
 import { ChurrascometroService } from '../../shared/services/churrascometro.service';
-import { map } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
