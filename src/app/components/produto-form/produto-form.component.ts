@@ -70,7 +70,7 @@ export class ProdutoFormComponent implements OnInit {
         if(value){
           carne = {
             ...carne,
-            [campo.nome]: campo.tipo === 'number' ? parseInt(value) : value
+            [campo.nome]: campo.tipo === 'number' ? parseFloat(value) : value
           }
         }
       });

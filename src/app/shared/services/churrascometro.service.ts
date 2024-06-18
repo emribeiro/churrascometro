@@ -13,6 +13,8 @@ export class ChurrascometroService {
 
   private carnes = signal<Carne[]>([]);
   public getCarnes = this.carnes.asReadonly();
+  private bebidas = signal<Bebida[]>([]);
+  public getBebidas = this.bebidas.asReadonly();
   private produto = signal<any | null>(null);
   public getProduto = this.produto.asReadonly();
 
@@ -27,8 +29,11 @@ export class ChurrascometroService {
     )
   }
 
-  getBebidas(): Observable<Bebida[]>{
+  httpGetBebidas(): Observable<Bebida[]>{
     return this.http.get<Bebida[]>(`${API_URL}/bebidas`).pipe(
+      tap((bebidas) => {
+        this.bebidas.set(bebidas);
+      }),
       catchError(this.handlerError)
     )
   }

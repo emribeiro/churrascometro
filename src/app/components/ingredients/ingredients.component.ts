@@ -30,9 +30,11 @@ export class IngredientsComponent implements OnInit{
     //   })
     // ).subscribe();
 
-    this.churrascometroService.httpGetCarnes().subscribe();
+    this.churrascometroService.httpGetCarnes().subscribe((carnes) => {
+      this.carnes = carnes;
+    });
     
-    this.churrascometroService.getBebidas().subscribe((bebidas) => {
+    this.churrascometroService.httpGetBebidas().subscribe((bebidas) => {
       this.bebidas = bebidas;
     });
   }

@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
+import { ChurrascometroService } from '../../shared/services/churrascometro.service';
+import { Carne } from '../../shared/models/Carne';
+import { Bebida } from '../../shared/models/Bebida';
 
 @Component({
   selector: 'app-lista-produtos',
@@ -11,21 +14,27 @@ import { RouterLink } from '@angular/router';
   templateUrl: './lista-produtos.component.html',
   styleUrl: './lista-produtos.component.scss'
 })
-export class ListaProdutosComponent {
+export class ListaProdutosComponent implements OnInit {
 
-  carnes = [
-    {nome: 'Picanha', tipo: 'Bovina', precoKg: 89.90},
-    {nome: 'Maminha', tipo: 'Bovina', precoKg: 49.90},
-    {nome: 'Lombo', tipo: 'Suína', precoKg: 69.90},
-  ];
-
-  bebidas = [
-    {nome: 'Coca-Cola', tipo: 'Refrigerante', precoUn: 9.90},
-    {nome: 'Fanta', tipo: 'Refrigerante', precoUn: 9.90},
-    {nome: 'Suco de Uva', tipo: 'Suco', precoUn: 9.90},
-    {nome: 'Agua', tipo: 'Agua', precoUn: 9.90},
-  ];
+  carnes: Carne[] = [];
+  bebidas: Bebida[] = [];
   colunasCarnes = ['nome', 'tipo', 'precoKg'];
   colunasBebidas = ['nome', 'tipo', 'precoUn'];
+
+  constructor(private service: ChurrascometroService){}
+  
+  ngOnInit(): void {
+    this.service.httpGetCarnes().subscribe((carnes) => {
+      this.carnes = carnes;
+    });
+    
+    this.service.httpGetBebidas().subscribe((bebidas) => {
+      this.bebidas = bebidas;
+    });
+  }
+;
+
+
+  
 
 }
