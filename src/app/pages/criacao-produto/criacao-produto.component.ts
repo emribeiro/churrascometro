@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { ProdutoFormComponent } from '../../components/produto-form/produto-form.component';
 
 @Component({
@@ -12,9 +11,14 @@ import { ProdutoFormComponent } from '../../components/produto-form/produto-form
 export default class CriacaoProdutoComponent{
   
   paramId!: string;
+  paramProduto!: string;
 
   @Input() set id(id: string){
     this.paramId = id;
+  }
+
+  @Input() set produto(produto: string){
+    this.paramProduto = produto;
   }
 
 }

@@ -11,7 +11,7 @@ export const produtoRoutes: Routes = [
       title: 'Churrascometro - Lista de Produtos'
     },
     {
-      path: 'novo',
+      path: ':produto',
       component: CriacaoProdutoComponent,
       title: 'Churrascometro - Criação de Produtos',
     },
