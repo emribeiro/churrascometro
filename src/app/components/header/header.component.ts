@@ -49,7 +49,6 @@ export class HeaderComponent {
   }
 
   openSignInDialog(): void{
-    console.log('Try to open');
     this.dialog.open(SigninDialogComponent);
   }
 }

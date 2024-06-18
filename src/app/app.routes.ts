@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { canActivateChildGuard } from './shared/guards/can-activate-child.guard';
 import { canMatchGuard } from './shared/guards/can-match.guard';
+import { homeGuard } from './shared/guards/home-guard.guard';
 
 export const routes: Routes = [ 
   { 
@@ -12,12 +13,13 @@ export const routes: Routes = [
   { 
     path: 'hero',
     loadComponent: () => import('./pages/hero/hero.component'),
-    title: 'Churrascometro - Home' 
+    title: 'Churrascometro - Home',
+    canActivate: [homeGuard]
   },
   { 
     path: '',
     redirectTo: '/hero',
-    pathMatch: 'full' 
+    pathMatch: 'full'
   },
   {
     path: 'churrascos',

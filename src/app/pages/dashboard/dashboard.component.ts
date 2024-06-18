@@ -16,6 +16,7 @@ export default class DashboardComponent {
     {id: 1, usuario: 'churras', qtAdultos: 20, qtCriancas: 5, total: 450.00, data: "20/03/2024"},
     {id: 1, usuario: 'churras', qtAdultos: 20, qtCriancas: 5, total: 980.00, data: "20/03/2024"},
     {id: 1, usuario: 'churras', qtAdultos: 20, qtCriancas: 5, total: 370.00, data: "20/03/2024"},
+    {id: 1, usuario: 'churras', qtAdultos: 20, qtCriancas: 5, total: 889.00, data: "20/03/2024"},
     {id: 1, usuario: 'churras', qtAdultos: 20, qtCriancas: 5, total: 889.00, data: "20/03/2024"}
   ]
   colunas: string[] = ['usuario', 'qtAdultos', 'qtCriancas', 'total'];
