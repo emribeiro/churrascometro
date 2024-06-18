@@ -18,12 +18,13 @@ export class ChurrascoBuilder{
         
     }
 
-    comCarne(
-        nomeCarne: string
+    comCarnes(
+        carnes: string[]
     ): ChurrascoBuilder{
 
-        this.churrascometroService
-            .getCarneByName(nomeCarne)
+        carnes.forEach((carne) => {
+            this.churrascometroService
+            .getCarneByName(carne)
             .subscribe((carne) => {
                 console.log(carne);
                 const consumo =  (( this.churrasco.adultos * carne.consumo_medio_adulto_g + 
@@ -32,15 +33,18 @@ export class ChurrascoBuilder{
                 this.churrasco.ingredientes?.push({nome: carne.nome, valor: consumo})
                 this.churrasco.valor_total = this.churrasco.valor_total + consumo;
             });
+        })
+        
         return this;
     }
 
-    comBebida(
-        nomeBebida: string
+    comBebidas(
+       bebidas: string[]
     ): ChurrascoBuilder{
 
-        this.churrascometroService
-            .getBebidaByName(nomeBebida)
+        bebidas.forEach((bebida) => {
+            this.churrascometroService
+            .getBebidaByName(bebida)
             .subscribe((bebida) => {
                 const consumo =  (( this.churrasco.adultos * bebida.consumo_medio_adulto_ml + 
                                   this.churrasco.criancas * bebida.consumo_medio_crianca_ml) / 1000 ) *
@@ -48,6 +52,8 @@ export class ChurrascoBuilder{
                 this.churrasco.ingredientes?.push({nome: bebida.nome, valor: consumo})
                 this.churrasco.valor_total = this.churrasco.valor_total + consumo;
             });
+        });
+        
         return this;
     }
 

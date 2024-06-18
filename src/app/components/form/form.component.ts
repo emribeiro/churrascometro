@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, effect } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
@@ -12,6 +12,8 @@ import { ChurrascoBuilder } from '../../shared/models/churrasco/ChurrascoBuilder
 import { ChurrascometroService } from '../../shared/services/churrascometro.service';
 import { TipoChurrasco } from '../../shared/models/churrasco/TipoChurrasco.enum';
 import { MatRadioModule } from '@angular/material/radio';
+import { Bebida } from '../../shared/models/Bebida';
+import { Carne } from '../../shared/models/Carne';
 
 @Component({
   selector: 'app-form',
@@ -29,7 +31,7 @@ import { MatRadioModule } from '@angular/material/radio';
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'
 })
-export class FormComponent {
+export class FormComponent implements OnInit{
 
   formTipoChurrasco!: FormGroup;
   formPessoas!: FormGroup;
@@ -39,25 +41,16 @@ export class FormComponent {
   exibirResultados: boolean = false;
   churrasco!: Churrasco;
 
-  carnesLista = [
-    { value: 'picanha', label: 'Picanha', tipo: 'Normal' },
-    { value: 'costela', label: 'Costela', tipo: 'Normal' },
-    { value: 'linguica', label: 'Linguiça', tipo: 'Normal' },
-    { value: 'frango', label: 'Frango', tipo: 'Normal' },
-    { value: 'queijo', label: 'Queijo', tipo: 'Vegetariano' },
-    { value: 'abacaxi', label: 'Abacaxi', tipo: 'Vegano' },
-  ];
+  carnesLista: { value: string; label: string; tipo: string }[] = [];
+  bebidasLista: { value: string; label: string }[] = [];
 
-  bebidasLista = [
-    { value: 'cerveja', label: 'Cerveja' },
-    { value: 'refrigerante', label: 'Refrigerante' },
-    { value: 'agua', label: 'Água' },
-    { value: 'suco', label: 'Suco' },
-  ];
 
-  tiposChurrasco = Object.keys(TipoChurrasco);
+  tiposChurrasco = Object.values(TipoChurrasco);
   tipochurrasco!: TipoChurrasco;
+  tiposChurrascoEnum = TipoChurrasco;
 
+  getCarnes = this.churrascometroService.getCarnes;
+  getBebidas = this.churrascometroService.getBebidas;
  
 
   constructor(
@@ -71,26 +64,47 @@ export class FormComponent {
       adultos: new FormControl(0, [Validators.required, Validators.min(0)]),
       criancas: new FormControl(null)
     });
-    this.formCarnes = this.formBuilder.group({
-      picanha: new FormControl(null),
-      costela: new FormControl(null),
-      linguica: new FormControl(null),
-      frango: new FormControl(null),
-      abacaxi: new FormControl(null),
-      queijo: new FormControl(null)
-    });
 
-    this.formBebidas = this.formBuilder.group({
-      cerveja: new FormControl(null),
-      refrigerante: new FormControl(null),
-      agua: new FormControl(null),
-      suco: new FormControl(null)
+    this.formCarnes = this.formBuilder.group({});
+
+    this.formBebidas = this.formBuilder.group({});
+   
+    effect(() => {
+      if(this.getBebidas()){
+        this.formBebidas = this.formBuilder.group({});
+        this.bebidasLista = [];
+        this.getBebidas().forEach((bebida: Bebida) => {
+          this.bebidasLista.push({
+            value: bebida.nome,
+            label: bebida.nome.charAt(0).toUpperCase() + bebida.nome.substring(1),
+          })
+          this.addFormControl(this.formBebidas, bebida.nome);
+        });
+      }
+      if (this.getCarnes()) {
+        this.formCarnes = this.formBuilder.group({});
+        this.carnesLista = [];
+        this.getCarnes().forEach((carne: Carne) => {
+          if (!this.formCarnes.get(carne.nome)) {
+            this.carnesLista.push({
+              value: carne.nome,
+              label: carne.nome.charAt(0).toUpperCase() + carne.nome.substring(1),
+              tipo: carne.tipo
+            })
+            this.addFormControl(this.formCarnes, carne.nome);
+          }
+        });
+      }
     });
+  }
+
+  ngOnInit(): void {
+    this.churrascometroService.httpGetCarnes().subscribe();
+    this.churrascometroService.httpGetBebidas().subscribe();
   }
 
   selecionarTipoChurrasco(){
     this.tipochurrasco = this.formTipoChurrasco.get('tipoChurrasco')?.value;
-    console.log(this.tipochurrasco);
   }
 
   validateTipo(): ValidatorFn{
@@ -98,7 +112,7 @@ export class FormComponent {
       return control.value ? null : {required: true}
     }
   }
-  
+
   submit(): void {
     if (this.formPessoas.valid &&
         this.formCarnes.valid && 
@@ -107,37 +121,27 @@ export class FormComponent {
       this.exibirLoading = true;
 
       const formPessoasValues = this.formPessoas.value;
-      const formCarnesValues = this.formCarnes.value;
-      const formBebidasValues = this.formBebidas.value;
 
-      console.log(formPessoasValues);
-      console.log(formCarnesValues);
-      console.log(formBebidasValues);
+      const bebidasSelecionadas: string[] = [];
+      const carnesSelecionadas: string[] = [];
+
+      Object.entries(this.formCarnes.value).forEach(([key, value]) => {
+        if (value) {
+          carnesSelecionadas.push(key);
+        }
+      });
+      Object.entries(this.formBebidas.value).forEach(([key, value]) => {
+        if (value) {
+          bebidasSelecionadas.push(key);
+        }
+      });
 
       const adultos = formPessoasValues.adultos;
       const criancas = formPessoasValues.criancas;
 
-      const picanha = formCarnesValues.picanha;
-      const costela = formCarnesValues.costela;
-      const linguica = formCarnesValues.linguica;
-      const frango = formCarnesValues.frango;
-
-      const cerveja = formBebidasValues.cerveja;
-      const refrigerante = formBebidasValues.refrigerante;
-      const agua = formBebidasValues.agua;
-      const suco = formBebidasValues.suco;
-
       const churrascoBuilder: ChurrascoBuilder = new ChurrascoBuilder(adultos, criancas, this.churrascometroService);
-
-      if(picanha) churrascoBuilder.comCarne('picanha');
-      if(costela) churrascoBuilder.comCarne('costela');
-      if(linguica) churrascoBuilder.comCarne('linguica');
-      if(frango) churrascoBuilder.comCarne('frango');
-
-      if(cerveja) churrascoBuilder.comBebida('cerveja');
-      if(refrigerante) churrascoBuilder.comBebida('refrigerante');
-      if(agua) churrascoBuilder.comBebida('agua');
-      if(suco) churrascoBuilder.comBebida('suco');
+      churrascoBuilder.comCarnes(carnesSelecionadas);
+      churrascoBuilder.comBebidas(bebidasSelecionadas);
 
       this.churrasco = churrascoBuilder.build();
 
@@ -148,5 +152,8 @@ export class FormComponent {
     }
   }
   
+  private addFormControl(formGroup: FormGroup, fieldName: string, validators: any[] = []): void {
+    formGroup.addControl(fieldName, this.formBuilder.control(null, validators));
+  }
 
 }
