@@ -43,6 +43,7 @@ export class HeaderComponent {
     this.loginService.logout().subscribe({
       next: () => {
         this.storageService.doLogoff();
+        this.router.navigate(['/']);
       }
     });
   }

@@ -10,8 +10,13 @@ export const routes: Routes = [
     title: 'Churrascometro - Home' 
   },
   { 
+    path: 'hero',
+    loadComponent: () => import('./pages/hero/hero.component'),
+    title: 'Churrascometro - Home' 
+  },
+  { 
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/hero',
     pathMatch: 'full' 
   },
   {
@@ -23,6 +28,11 @@ export const routes: Routes = [
     path: 'produtos',
     canMatch: [canMatchGuard],
     loadChildren: () => import('./produto.routes').then(r => r.produtoRoutes)
+  },
+  {
+    path: 'dashboard',
+    canMatch: [canMatchGuard],
+    loadComponent: () => import('./pages/dashboard/dashboard.component')
   },
   { 
     path: 'error/:code',

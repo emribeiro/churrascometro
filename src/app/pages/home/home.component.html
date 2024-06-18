@@ -1,28 +1,30 @@
-<section id="section-start">
-   <div class="text-center py-5">
-      <h1 class="!my-6 !text-3xl !font-bold">
-         {{welcomeMessage}}
-      </h1>
-
+<main class="bg-red-300 min-h[calc(100vh-400px)] p-10 flex flex-col justify-center">
+   <section id="section-start">
+      <div class="text-center py-5">
+         <h1 class="!my-6 !text-3xl !font-bold">
+            {{welcomeMessage}}
+         </h1>
+   
+         <button mat-raised-button 
+                 color="primary" 
+                 class="button-start mb-6 "
+                 (click)="navigateToCreation()"
+                 >
+            Vamos começar!
+         </button>
+      </div>
+   </section>
+   
+   <section id="section-ingredients" class="bg-red-300 min-h[calc(100vh-400px)] p10 flex justify-center">
+      <app-ingredients></app-ingredients>
+   </section>
+   
+   <section id="section-end" class="text-center py-5">
       <button mat-raised-button 
-              color="primary" 
-              class="button-start mb-6 "
-              (click)="navigateToCreation()"
-              >
-         Vamos começar!
-      </button>
-   </div>
-</section>
-
-<section id="section-ingredients" class="bg-red-300 min-h[calc(100vh-400px)] p10">
-   <app-ingredients></app-ingredients>
-</section>
-
-<section id="section-end" class="text-center py-5">
-   <button mat-raised-button 
-              color="primary" 
-              class="button-start mb-6"
-              (click)="rolarToSection('header')">
-         Ir para o Topo
-      </button>
-</section>
+                 color="primary" 
+                 class="button-start mb-6"
+                 (click)="rolarToSection('header')">
+            Ir para o Topo
+         </button>
+   </section>
+</main>

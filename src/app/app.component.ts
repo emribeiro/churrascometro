@@ -15,24 +15,6 @@ import HomeComponent from './pages/home/home.component';
 })
 export class AppComponent {
   title = 'churrascometro';
-  user: string = 'letscode';
-  pass: string = 'lets@123';
 
-  constructor( private auth: LoginService
-             , private storage: StorageService
-  ){
-    this.login();
-  }
-
-  login(){
-    this.auth.login(this.user, this.pass).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.storage.setToken(res.token);
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
-  }
+  constructor(){}
 }

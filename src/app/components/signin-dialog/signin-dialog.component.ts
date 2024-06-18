@@ -13,6 +13,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { LoginService } from '../../shared/services/login.service';
 import { StorageService } from '../../shared/services/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signin-dialog',
@@ -38,7 +39,9 @@ export class SigninDialogComponent {
   constructor( private formBuilder: FormBuilder
              , private dialog: MatDialog
              , private loginService: LoginService
-             , private storageService: StorageService){
+             , private storageService: StorageService
+             , private router: Router
+            ){
     this.formLogin = this.formBuilder.group({
       usuario: new FormControl("", [Validators.required]),
       senha: new FormControl("", [Validators.required])
@@ -51,6 +54,11 @@ export class SigninDialogComponent {
       next: (res) => {
         this.storageService.doLogin(res.token, res.user, res.perfil);
         this.dialog.closeAll();
+        if(res.perfil == 'admin'){
+          this.router.navigate(['/dashboard']);
+        }else{
+          this.router.navigate(['/home'])
+        }
       }});
   }
 
