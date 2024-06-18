@@ -49,6 +49,7 @@ export class ProdutoFormComponent implements OnInit {
     this.campos.forEach((campo) => {
       this.addFormControl(campo.nome, [Validators.required]);
     });
+    
 
     if(this.id){
       this.service.httpGetProduto(this.id, 'carnes').subscribe();
@@ -90,7 +91,7 @@ export class ProdutoFormComponent implements OnInit {
           })  
         } 
       }
-      this.router.navigate(['/home']);
+      this.router.navigate(['/produtos']);
     }
   }
 
