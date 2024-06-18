@@ -144,6 +144,7 @@ export class FormComponent implements OnInit{
       churrascoBuilder.comBebidas(bebidasSelecionadas);
 
       this.churrasco = churrascoBuilder.build();
+      this.churrascometroService.createChurrasco(this.churrasco);
 
       setTimeout(() => {
         this.exibirLoading = false;

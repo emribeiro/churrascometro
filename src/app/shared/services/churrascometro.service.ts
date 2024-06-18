@@ -5,6 +5,7 @@ import { Carne } from '../models/Carne';
 import { Bebida } from '../models/Bebida';
 import { API_URL } from '../models/constants/constant';
 import { Router } from '@angular/router';
+import { Churrasco } from '../models/churrasco/Churrasco';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,8 @@ export class ChurrascometroService {
   public getBebidas = this.bebidas.asReadonly();
   private produto = signal<any | null>(null);
   public getProduto = this.produto.asReadonly();
+  private churrascos = signal<Churrasco[]>([]);
+  public getChurrascos = this.churrascos.asReadonly();
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -100,6 +103,11 @@ httpGetProduto(id: string, endpoint: string): Observable<any>{
     }),
     catchError(this.handlerError)
   );
+}
+
+createChurrasco(churrasco: Churrasco): void{
+  this.getChurrascos().push(churrasco);
+  console.log(this.getChurrascos());
 }
 
 
