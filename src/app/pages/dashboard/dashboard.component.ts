@@ -32,8 +32,6 @@ export default class DashboardComponent implements OnInit{
     this.service.httpGetChurrascos().subscribe();
   }
 
-
-  
   colunas: string[] = [ 'tipo', 'qtAdultos', 'qtCriancas', 'total'];
 
 }
