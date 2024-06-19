@@ -64,7 +64,7 @@ export class ProdutoFormComponent implements OnInit {
              , private service: ChurrascometroService
              , private router: Router){
     effect(() => {
-      if(this.getProduto()){
+      if(this.getProduto() && this.id){
         this.form.patchValue(this.getProduto());  
       }
     });
@@ -77,10 +77,14 @@ export class ProdutoFormComponent implements OnInit {
     this.campos.forEach((campo) => {
       this.addFormControl(campo.nome, [Validators.required]);
     });
-    
+  
 
     if(this.id){
-      this.service.httpGetProduto(this.id, 'carnes').subscribe();
+      if(this.produto == 'carnes'){
+        this.service.httpGetProduto(this.id, 'carnes').subscribe();
+      }else{
+        this.service.httpGetProduto(this.id, 'bebidas').subscribe();
+      }
     }
   }
 

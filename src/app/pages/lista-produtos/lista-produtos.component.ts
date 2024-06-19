@@ -6,11 +6,12 @@ import { RouterLink } from '@angular/router';
 import { ChurrascometroService } from '../../shared/services/churrascometro.service';
 import { Carne } from '../../shared/models/Carne';
 import { Bebida } from '../../shared/models/Bebida';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-lista-produtos',
   standalone: true,
-  imports: [MatButtonModule, MatTableModule, CommonModule, RouterLink],
+  imports: [MatButtonModule, MatTableModule, CommonModule, RouterLink, MatIconModule],
   templateUrl: './lista-produtos.component.html',
   styleUrl: './lista-produtos.component.scss'
 })
@@ -18,8 +19,8 @@ export class ListaProdutosComponent implements OnInit {
 
   carnes: Carne[] = [];
   bebidas: Bebida[] = [];
-  colunasCarnes = ['nome', 'tipo', 'precoKg'];
-  colunasBebidas = ['nome', 'tipo', 'precoUn'];
+  colunasCarnes = ['nome', 'tipo', 'precoKg', 'acoes'];
+  colunasBebidas = ['nome', 'tipo', 'precoUn', 'acoes'];
 
   constructor(private service: ChurrascometroService){}
   
