@@ -22,8 +22,6 @@ export class ChurrascometroService {
   public getChurrascos = this.churrascos.asReadonly();
 
   constructor(private http: HttpClient, private router: Router) {
-
-    console.log('Carreguei')
    }
 
   httpGetCarnes(): Observable<Carne[]>{
@@ -123,11 +121,9 @@ httpGetChurrascos(): Observable<Churrasco[]>{
   )
 }
 
-
-
-  private handlerError(error: HttpErrorResponse): Observable<any>{
-    console.error('Ocorreu um erro: ' + error);
-    this.router.navigate(['/error/', error.status], { queryParams: { message: error.message }});
-    return throwError(() => error);
-  }
+private handlerError(error: HttpErrorResponse): Observable<any>{
+  console.error('Ocorreu um erro: ' + error);
+  this.router.navigate(['/error/', error.status], { queryParams: { message: error.message }});
+  return throwError(() => error);
+}
 }

@@ -13,6 +13,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { LoginService } from '../../shared/services/login.service';
 import { StorageService } from '../../shared/services/storage.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 @Component({
@@ -41,6 +42,7 @@ export class SigninDialogComponent {
              , private loginService: LoginService
              , private storageService: StorageService
              , private router: Router
+             , private snackBar: MatSnackBar
             ){
     this.formLogin = this.formBuilder.group({
       usuario: new FormControl("", [Validators.required]),
@@ -59,7 +61,12 @@ export class SigninDialogComponent {
         }else{
           this.router.navigate(['/home'])
         }
-      }});
+      },
+      error: (err) => {
+        this.snackBar.open('Login inválido', 'Close');
+      }
+    
+    });
   }
 
 }
