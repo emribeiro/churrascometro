@@ -4,13 +4,13 @@
         <div class="flex">
             <mat-card class="!max-w-24 mx-2">
                 <mat-card-content>
-                    <h1 class="!text-3xl">3</h1>
+                    <h1 class="!text-3xl">{{totalProdutos}}</h1>
                     <p class="text-xs">Produtos Cadastrados</p>
                 </mat-card-content>
             </mat-card>
             <mat-card class="!max-w-24">
                 <mat-card-content>
-                    <h1 class="!text-3xl">5</h1>
+                    <h1 class="!text-3xl">{{churrascos.length}}</h1>
                     <p class="text-xs">Churrascos Criados</p>
                 </mat-card-content>
             </mat-card>
@@ -19,21 +19,21 @@
     <section>
         <h2>Últimos Churrascos criados</h2>
         <table mat-table [dataSource]="churrascos" class="mat-elevation-z8">
-            <ng-container matColumnDef="usuario">
-                <th mat-header-cell *matHeaderCellDef> Usuário </th>
-                <td mat-cell *matCellDef="let element"> {{element.usuario}} </td>
+            <ng-container matColumnDef="tipo">
+                <th mat-header-cell *matHeaderCellDef> Tipo Churrasco </th>
+                <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
             </ng-container>
             <ng-container matColumnDef="qtAdultos">
                 <th mat-header-cell *matHeaderCellDef> Adultos </th>
-                <td mat-cell *matCellDef="let element"> {{element.qtAdultos}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.adultos}} </td>
             </ng-container>
             <ng-container matColumnDef="qtCriancas">
                 <th mat-header-cell *matHeaderCellDef> Crianças </th>
-                <td mat-cell *matCellDef="let element"> {{element.qtCriancas}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.criancas}} </td>
             </ng-container>
             <ng-container matColumnDef="total">
                 <th mat-header-cell *matHeaderCellDef> Valor do churrasco </th>
-                <td mat-cell *matCellDef="let element"> {{element.total | currency: 'BRL'}}  </td>
+                <td mat-cell *matCellDef="let element"> {{element.valor_total | currency: 'BRL'}}  </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="colunas"></tr>
             <tr mat-row *matRowDef="let row; columns: colunas;"></tr>

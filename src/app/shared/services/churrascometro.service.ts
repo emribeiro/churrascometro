@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { Injectable, Signal, signal } from '@angular/core';
 import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { Carne } from '../models/Carne';
 import { Bebida } from '../models/Bebida';
@@ -18,10 +18,13 @@ export class ChurrascometroService {
   public getBebidas = this.bebidas.asReadonly();
   private produto = signal<any | null>(null);
   public getProduto = this.produto.asReadonly();
-  private churrascos = signal<Churrasco[]>([]);
+  private churrascos= signal<Churrasco[]>([]);
   public getChurrascos = this.churrascos.asReadonly();
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {
+
+    console.log('Carreguei')
+   }
 
   httpGetCarnes(): Observable<Carne[]>{
     return this.http.get<Carne[]>(`${API_URL}/carnes`).pipe(
@@ -105,10 +108,21 @@ httpGetProduto(id: string, endpoint: string): Observable<any>{
   );
 }
 
-createChurrasco(churrasco: Churrasco): void{
-  this.getChurrascos().push(churrasco);
-  console.log(this.getChurrascos());
+httpCreateChurrasco(churrasco: Churrasco): Observable<any> {
+  return this.http.post<any>(`${API_URL}/churrascos`, churrasco).pipe(
+    catchError(this.handlerError)
+  )
 }
+
+httpGetChurrascos(): Observable<Churrasco[]>{
+  return this.http.get<Churrasco[]>(`${API_URL}/churrascos`).pipe(
+    tap((churrascos) => {
+      this.churrascos.set(churrascos);
+    }),
+    catchError(this.handlerError)
+  )
+}
+
 
 
   private handlerError(error: HttpErrorResponse): Observable<any>{

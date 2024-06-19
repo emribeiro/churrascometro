@@ -139,16 +139,17 @@ export class FormComponent implements OnInit{
       const adultos = formPessoasValues.adultos;
       const criancas = formPessoasValues.criancas;
 
-      const churrascoBuilder: ChurrascoBuilder = new ChurrascoBuilder(adultos, criancas, this.churrascometroService);
+      const churrascoBuilder: ChurrascoBuilder = new ChurrascoBuilder(adultos, criancas, this.tipochurrasco, this.churrascometroService);
       churrascoBuilder.comCarnes(carnesSelecionadas);
       churrascoBuilder.comBebidas(bebidasSelecionadas);
-
       this.churrasco = churrascoBuilder.build();
-      this.churrascometroService.createChurrasco(this.churrasco);
+      console.log(this.churrasco);
+      
 
       setTimeout(() => {
         this.exibirLoading = false;
         this.exibirResultados = true;
+        this.churrascometroService.httpCreateChurrasco(this.churrasco).subscribe();
       }, 2000);
     }
   }

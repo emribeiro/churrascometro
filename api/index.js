@@ -294,4 +294,45 @@ app.delete("/bebidas/:id", (req, res) => {
   res.json(bebidas);
 });
 
+//CHURRASCOS
+
+const churrascos = [];
+
+app.post("/churrascos", (req, res) => {
+  const {adultos, criancas, ingredientes, tipo, valor_total} = req.body;
+
+  let id;
+
+  if(churrascos.length == 0){
+    id = 1;
+  }else{
+    id = churrascos[churrascos.length - 1].id + 1;
+  } 
+
+
+
+  churrascos.push({id, adultos, criancas, ingredientes, tipo, valor_total});
+
+  return res.status(201);
+
+});
+
+app.get("/churrascos", (req, res) => {
+  return res.status(200).json(churrascos);
+});
+
+app.get("/churrascos/:id", (req, res) => {
+  const id = req.params.id;
+
+  const filtro = this.churrascos.filter((churrasco) => churrasco.id === id);
+  return res.status(200).json(filtro);
+});
+
+app.delete("/churrascos/:id", (req, res) => {
+  const id = req.params.id;
+  this.churrasco = this.churrasco.filter((churrasco) => churrasco.id !== id);
+
+  return res.status(200);
+})
+
 app.listen(5001, () => console.log("listening on http://localhost:5001"));

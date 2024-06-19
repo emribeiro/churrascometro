@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, effect } from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
+import { ChurrascometroService } from '../../shared/services/churrascometro.service';
+import { Churrasco } from '../../shared/models/churrasco/Churrasco';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,15 +12,28 @@ import {MatTableModule} from '@angular/material/table';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export default class DashboardComponent {
+export default class DashboardComponent implements OnInit{
 
-  churrascos = [
-    {id: 1, usuario: 'churras', qtAdultos: 20, qtCriancas: 5, total: 450.00, data: "20/03/2024"},
-    {id: 1, usuario: 'churras', qtAdultos: 20, qtCriancas: 5, total: 980.00, data: "20/03/2024"},
-    {id: 1, usuario: 'churras', qtAdultos: 20, qtCriancas: 5, total: 370.00, data: "20/03/2024"},
-    {id: 1, usuario: 'churras', qtAdultos: 20, qtCriancas: 5, total: 889.00, data: "20/03/2024"},
-    {id: 1, usuario: 'churras', qtAdultos: 20, qtCriancas: 5, total: 889.00, data: "20/03/2024"}
-  ]
-  colunas: string[] = ['usuario', 'qtAdultos', 'qtCriancas', 'total'];
+  totalProdutos: number = 0;
+  churrascos: Churrasco[] = [];
+
+  constructor(private service: ChurrascometroService){
+
+    effect(() => {
+      this.totalProdutos = this.service.getBebidas().length + this.service.getCarnes().length;
+      this.churrascos = this.service.getChurrascos();
+    });
+  }
+  
+
+  ngOnInit(): void {
+    this.service.httpGetBebidas().subscribe();
+    this.service.httpGetCarnes().subscribe();
+    this.service.httpGetChurrascos().subscribe();
+  }
+
+
+  
+  colunas: string[] = [ 'tipo', 'qtAdultos', 'qtCriancas', 'total'];
 
 }
